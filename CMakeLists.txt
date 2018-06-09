@@ -31,7 +31,7 @@ endif()
 ##########################################################
 
 # defines
-add_definitions(-DPROJECT_NAME="${PROJECT_NAME}")
+add_definitions(-DPROJECT_NAME="${PROJECT_NAME}" -DVERSION_MAJOR=${VERSION_MAJOR} -DVERSION_MINOR=${VERSION_MINOR} -DVERSION_PATCH=${VERSION_PATCH})
 
 # C++ features
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -61,7 +61,7 @@ endif()
 ##########################################################
 
 # Doxygen
-find_package(Doxygen)
+find_package(Doxygen 1.8.3)
 
 # Google test
 enable_testing()
@@ -79,10 +79,13 @@ if(BUILD_DOCUMENTATION)
         message(FATAL_ERROR "Doxygen is needed to build the documentation")
     endif()
 
+    set(doxy_main_page ${CMAKE_CURRENT_SOURCE_DIR}/README.md)
     set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
     set(doxyfile ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
 
     configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+    # Little hack to add README.md to the indexed file in qtcreator
+    configure_file(${doxy_main_page} ${doxy_main_page} @ONLY)
 
     add_custom_target(doc
         COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
@@ -93,7 +96,11 @@ endif()
 
 # Test
 Option(BUILD_TEST "Build tests" ${GTEST_FOUND})
-
+if(BUILD_TEST)
+    if(NOT ${GTEST_FOUND})
+        message(FATAL_ERROR "Google Test is needed to build the test executable")
+    endif()
+endif()
 
 ##########################################################
 # Include files and libraries                            #
