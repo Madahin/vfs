@@ -39,7 +39,7 @@ $ ./test_vfs
 
 You can also launch the test witouth the slow one with :
 ```bash
-$ ./test_vfs --gtest_filter=-"*slow" # to pass slow tests
+$ ./test_vfs --gtest_filter=-"*slow"
 ```
 
 ## Built With
