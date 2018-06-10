@@ -16,6 +16,8 @@
         -- Volker Diels-Grabsch <v@njh.eu>
     Safety fixes
         -- Eugene Hopkinson <slowriot at voxelstorm dot com>
+    Adding binary format
+        -- Madahin <admin@madahindev.com>
 */
 
 #ifndef SHA1_HPP
@@ -25,6 +27,7 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
+#include <array>
 
 
 class SHA1
@@ -34,6 +37,8 @@ public:
     void update(const std::string &s);
     void update(std::istream &is);
     std::string final();
+    std::array<std::uint8_t, 40> raw_final();
+
     static std::string from_file(const std::string &filename);
 
 private:

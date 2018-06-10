@@ -5,12 +5,12 @@
  * @madahin
  */
 
-#include "file.hpp"
+#include "folder.hpp"
 
 namespace vfs
 {
 
-file::file(file_system& pFs) :
+folder::folder(file_system& pFs) :
     mFileSystem(pFs)
 {
 

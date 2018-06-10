@@ -297,6 +297,36 @@ std::string SHA1::final()
     return result.str();
 }
 
+std::array<std::uint8_t, 40> SHA1::raw_final()
+{
+    std::array<std::uint8_t, 40> result = {0};
+
+    const std::string strFormat = final();
+    for(unsigned int i=0; i < strFormat.size(); ++i)
+    {
+        std::uint8_t bit = 0;
+        std::uint8_t currentBit = strFormat[i];
+
+        if(currentBit >= '0' && currentBit <= '9')
+        {
+            bit = currentBit - '0';
+        }
+        else if(currentBit >= 'a' && currentBit <= 'f')
+        {
+            bit = currentBit - 'a';
+        }
+        else
+        {
+            // Should never be here, but still, we take some data with us
+            bit = currentBit;
+        }
+
+        result[i] = bit;
+    }
+
+    return result;
+}
+
 
 std::string SHA1::from_file(const std::string &filename)
 {
